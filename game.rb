@@ -1,5 +1,6 @@
 require_relative 'console'
 require_relative 'viewer'
+require 'sqlite3'
 
 class MemoryGame
   include Console
@@ -8,6 +9,7 @@ class MemoryGame
 
   def initialize
     @letters = []
+    @scores = SQLite3::Database.open "scores.db"
   end
 
   def one_round
