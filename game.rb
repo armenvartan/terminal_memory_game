@@ -5,15 +5,17 @@ require 'sqlite3'
 class MemoryGame
   include Console
   include Viewer
-  attr_reader :letters
+  attr_accessor :letters, :scores
 
-  def initialize
+  def initialize(scores_database)
     @letters = []
-    @scores = SQLite3::Database.open "scores.db"
+    @scores = SQLite3::Database.open "#{scores_database}"
   end
 
   def one_round
     keep_going = true
+    start_screen
+    username = answer
     until keep_going == false do
       clear_screen
       add_letter(@letters)
@@ -22,23 +24,20 @@ class MemoryGame
       clear_screen
       answer_timer
       keep_going = compare_answer(answer, @letters)
-
     end
-    you_lose(@letters)
-  end
 
+    user_score = score(@letters)
+    add_score(@scores, username, user_score)
+    you_lose(username, user_score)
+  end
 end
 
-game = MemoryGame.new
+game = MemoryGame.new('scores.db')
 
 ## TESTS ##
+# p game.scores
 
-# p game.letters
-# p game.random_letter
-# p game.add_letter(game.letters)
-# p game.to_string(game.letters)
-# p game.compare("A", game.letters)
-# p game.clear_screen
-game.start_screen
-game.answer
-game.one_round
+# game.start_screen
+# game.add_score(game.scores, "armen", 5)
+p game.this_weeks_high_scores(game.scores)
+# game.one_round

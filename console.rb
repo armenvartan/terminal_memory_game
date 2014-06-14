@@ -33,4 +33,12 @@ module Console
     2 ** letters.length
   end
 
+  def add_score(database, username, score)
+    database.execute "INSERT INTO scores (user, score) VALUES (?, ?)", [username, score]
+  end
+
+  def this_weeks_high_scores(database)
+    scores = database.execute "SELECT user, score, created_at FROM scores"
+  end
+
 end

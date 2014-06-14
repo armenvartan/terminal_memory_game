@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS scores;
 
 CREATE TABLE scores (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  user VARCHAR NULL,
-  score INTEGER NOT NULL
+  user VARCHAR,
+  score INTEGER NOT NULL,
+  created_at DATETIME DEFAULT current_timestamp
 );
