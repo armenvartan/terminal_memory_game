@@ -2,24 +2,39 @@
 module Console
 
   def clear_screen
-    puts "\e[H\e[2J"
-  end
-
-  def letter_string
-    self.join
+    print "\e[2J"
   end
 
   def random_letter
-    self.sample
+    ("A".."Z").to_a.sample
   end
 
-  def add_letter
-    self << random_letter
+  def add_letter(array)
+    array.push(random_letter)
   end
 
-  def compare(answer)
-    answer.upcase == letter_string
+  def answer
+    answer = gets.chomp
   end
 
+  def compare_answer(answer, letters)
+    answer.upcase == letters.join
+  end
+
+  def wait
+    sleep(1)
+  end
+
+  def clear_mind
+      sleep(2)
+  end
+
+  def answer_timer
+    sleep(5)
+  end
+
+  def score(letters)
+    2 ** letters.length
+  end
 
 end

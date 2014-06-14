@@ -1,30 +1,29 @@
 require_relative 'console'
+require_relative 'viewer'
 
 class MemoryGame
   include Console
-  attr_reader :letters, :letter_array
+  include Viewer
+  attr_reader :letters
 
   def initialize
-    @letter_array = []
-    @letters = ("A".."Z").to_a
-
+    @letters = []
   end
 
-  def letter_string
-    @letter_array.join
+  def one_round
+    keep_going = true
+    until keep_going == false do
+      clear_screen
+      add_letter(@letters)
+      puts @letters.join
+      wait
+      clear_screen
+      keep_going = compare_answer(answer, @letters)
+      clear_mind
+    end
+    you_lose(@letters)
   end
 
-  def random_letter
-    @letters.sample
-  end
-
-  def add_letter
-    @letter_array << random_letter
-  end
-
-  def compare(answer)
-    answer.upcase == letter_string
-  end
 end
 
 game = MemoryGame.new
@@ -33,8 +32,10 @@ game = MemoryGame.new
 
 # p game.letters
 # p game.random_letter
-game.add_letter
-p game.letter_array
-p game.letter_string
-p game.compare("A")
-p game.clear_screen
+# p game.add_letter(game.letters)
+# p game.to_string(game.letters)
+# p game.compare("A", game.letters)
+# p game.clear_screen
+game.start_screen
+game.answer
+game.one_round
