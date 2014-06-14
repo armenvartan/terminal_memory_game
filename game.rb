@@ -18,8 +18,9 @@ class MemoryGame
       puts @letters.join
       wait
       clear_screen
+      answer_timer
       keep_going = compare_answer(answer, @letters)
-      clear_mind
+
     end
     you_lose(@letters)
   end

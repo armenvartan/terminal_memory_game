@@ -25,12 +25,8 @@ module Console
     sleep(1)
   end
 
-  def clear_mind
-      sleep(2)
-  end
-
   def answer_timer
-    sleep(5)
+    sleep(2)
   end
 
   def score(letters)
