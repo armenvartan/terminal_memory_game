@@ -13,23 +13,22 @@ class MemoryGame
   end
 
   def one_round
-    keep_going = true
+    keep_going = nil
     start_screen
     username = answer
     until keep_going == false do
       clear_screen
       add_letter(@letters)
       puts @letters.join
-      wait
-      clear_screen
-      answer_timer
-      keep_going = compare_answer(answer, @letters)
+      keep_going = Thread.new{ wait; clear_screen; hi = compare_answer(answer, @letters)}
+      keep_going = Thread.new{ answer_timer }
+      keep_going.join
     end
 
-    user_score = score(@letters)
-    add_score(@scores, username, user_score)
-    you_lose(username, user_score)
-    high_score_screen(this_weeks_high_scores(@scores))
+    # user_score = score(@letters)
+    # add_score(@scores, username, user_score)
+    # you_lose(username, user_score)
+    # high_score_screen(this_weeks_high_scores(@scores))
   end
 end
 
