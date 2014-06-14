@@ -1,7 +1,7 @@
-# require 'console'
+require_relative 'console'
 
 class MemoryGame
-
+  include Console
   attr_reader :letters, :letter_array
 
   def initialize
@@ -37,4 +37,4 @@ game.add_letter
 p game.letter_array
 p game.letter_string
 p game.compare("A")
-# p game.clear_screen
+p game.clear_screen
