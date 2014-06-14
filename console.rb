@@ -38,7 +38,10 @@ module Console
   end
 
   def this_weeks_high_scores(database)
-    scores = database.execute "SELECT user, score, created_at FROM scores"
+    scores = database.execute "SELECT user, score, created_at FROM scores
+    WHERE current_timestamp - created_at < 10"
+    scores.sort!{ |low_scores, high_scores| high_scores[1] <=> low_scores[1]}
+    scores.shift(5)
   end
 
 end

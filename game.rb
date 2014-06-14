@@ -29,6 +29,7 @@ class MemoryGame
     user_score = score(@letters)
     add_score(@scores, username, user_score)
     you_lose(username, user_score)
+    high_score_screen(this_weeks_high_scores(@scores))
   end
 end
 
@@ -38,6 +39,9 @@ game = MemoryGame.new('scores.db')
 # p game.scores
 
 # game.start_screen
-# game.add_score(game.scores, "armen", 5)
-p game.this_weeks_high_scores(game.scores)
-# game.one_round
+# game.add_score(game.scores, "armen", 1)
+# game.add_score(game.scores, "armen", 200)
+# game.add_score(game.scores, "armen", 64)
+# game.add_score(game.scores, "armen", 250)
+# game.high_score_screen(game.this_weeks_high_scores(game.scores))
+game.one_round

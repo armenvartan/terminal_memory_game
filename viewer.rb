@@ -19,4 +19,10 @@ Enter your user name to start...)
     puts "Thanks for playing, #{username}. Your score is #{final_score}"
   end
 
+  def high_score_screen(high_scores)
+    high_scores.each do |high_score|
+      puts "#{high_score[0]}: #{high_score[1]} points on #{high_score[2]}"
+    end
+  end
+
 end
