@@ -38,25 +38,37 @@ class MemoryGame
   def timed_round
     keep_going = true
 
+    # until keep_going == false do
+    #   clear_screen
+    #   add_letter(@letters)
+    #   puts @letters.join
+    #
+    #   answers_in_time = Thread.new do
+    #     wait
+    #     clear_screen
+    #     compare_answer(answer, @letters) ? timed_round : keep_going = false
+    #     Thread.kill(answers_too_slow)
+    #   end
+    #   answers_too_slow = Thread.new do
+    #     timer
+    #     Thread.kill(answers_in_time)
+    #     keep_going = false
+    #   end
+    #   answers_in_time.join
+    # end
+
     until keep_going == false do
       clear_screen
       add_letter(@letters)
       puts @letters.join
 
-      answers_too_slow = Thread.new do
-        timer
-        keep_going = false
-        Thread.kill(answers_in_time)
-      end
-      answers_in_time = Thread.new do
-        wait
-        clear_screen
-        compare_answer(answer, @letters) == true ? timed_round : keep_going = false
-      end
+      answers_in_time = Thread.new{ wait; clear_screen; keep_going = compare_answer(answer, @letters); Thread.kill(answers_too_slow) }
+      answers_too_slow = Thread.new{ timer; keep_going = false; Thread.kill(answers_in_time) }
       answers_in_time.join
     end
 
     score_screen(@username)
+    sleep(2)
   end
 end
 
