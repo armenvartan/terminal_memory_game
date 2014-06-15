@@ -20,8 +20,10 @@ Enter your user name to start...)
   end
 
   def high_score_screen(high_scores)
+    puts "\n"
+    puts "High scores this week:"
     high_scores.each do |high_score|
-      puts "#{high_score[0]}: #{high_score[1]} points on #{high_score[2]}"
+      puts "#{high_score[0]}: #{high_score[1]} points, #{high_score[2]}, timer: #{high_score[3]} seconds, on #{high_score[4]}"
     end
   end
 

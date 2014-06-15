@@ -10,35 +10,68 @@ class MemoryGame
   def initialize(scores_database)
     @letters = []
     @scores = SQLite3::Database.open "#{scores_database}"
+    @user_name = ""
   end
 
-  def play_timed_game #game currently gives you the total amount of time to play and doesn't refresh timer.
-    keep_going = true
+  def start_game
     start_screen
-    username = answer
+    @username = gets.chomp
+    choose_game_mode
+  end
+
+  def timed_game #where timer is for the total game
+    keep_going = true
+
     until keep_going == false do
       clear_screen
       add_letter(@letters)
-
       puts @letters.join
+
       answers_in_time = Thread.new{ wait; clear_screen; keep_going = compare_answer(answer, @letters) }
-      answers_too_slow = Thread.new{ answer_timer; keep_going = false; Thread.kill(answers_in_time) }
+      answers_too_slow = Thread.new{ timer; keep_going = false; Thread.kill(answers_in_time) }
       answers_in_time.join
     end
 
-    score_screen(username)
+    score_screen(@username)
+  end
+
+  def timed_round
+    keep_going = true
+
+    until keep_going == false do
+      clear_screen
+      add_letter(@letters)
+      puts @letters.join
+
+      answers_too_slow = Thread.new do
+        timer
+        keep_going = false
+        Thread.kill(answers_in_time)
+      end
+      answers_in_time = Thread.new do
+        wait
+        clear_screen
+        compare_answer(answer, @letters) == true ? timed_round : keep_going = false
+      end
+      answers_in_time.join
+    end
+
+    score_screen(@username)
   end
 end
 
 game = MemoryGame.new('scores.db')
 
+## DRIVER CODE ##
+
+game.start_game
+
 ## TESTS ##
 # p game.scores
-
-# game.start_screen
+# game.start_game
 # game.add_score(game.scores, "armen", 1)
 # game.add_score(game.scores, "armen", 200)
 # game.add_score(game.scores, "armen", 64)
 # game.add_score(game.scores, "armen", 250)
 # game.high_score_screen(game.this_weeks_high_scores(game.scores))
-game.play_timed_game
+# game.start_game
