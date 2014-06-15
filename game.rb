@@ -19,24 +19,15 @@ class MemoryGame
     until keep_going == false do
       clear_screen
       add_letter(@letters)
+
       puts @letters.join
-      answers_in_time = Thread.new do
-        wait
-        clear_screen
-        keep_going = compare_answer(answer, @letters)
-      end
-      answers_too_slow = Thread.new do
-        answer_timer
-        keep_going = false
-        Thread.kill(answers_in_time)
-      end
+      answers_in_time = Thread.new{ wait; clear_screen; keep_going = compare_answer(answer, @letters) }
+      answers_too_slow = Thread.new{ answer_timer; keep_going = false; Thread.kill(answers_in_time) }
       answers_in_time.join
     end
 
     score_screen(username)
   end
-
-
 end
 
 game = MemoryGame.new('scores.db')
