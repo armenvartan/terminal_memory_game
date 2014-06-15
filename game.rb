@@ -13,6 +13,7 @@ class MemoryGame
     @user_name = ""
   end
 
+
   def start_game
     start_screen
     @username = gets.chomp
@@ -69,6 +70,12 @@ class MemoryGame
 
     score_screen(@username)
     sleep(2)
+    end
+
+    # user_score = score(@letters)
+    # add_score(@scores, username, user_score)
+    # you_lose(username, user_score)
+    # high_score_screen(this_weeks_high_scores(@scores))
   end
 end
 
