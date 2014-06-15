@@ -26,7 +26,7 @@ module Console
   end
 
   def answer_timer
-    sleep(2)
+    sleep(10)
   end
 
   def score(letters)
@@ -44,4 +44,10 @@ module Console
     scores.shift(5)
   end
 
+  def score_screen(username)
+    user_score = score(@letters)
+    add_score(@scores, username, user_score)
+    you_lose(username, user_score)
+    high_score_screen(this_weeks_high_scores(@scores))
+  end
 end

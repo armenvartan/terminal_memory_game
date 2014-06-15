@@ -12,7 +12,7 @@ class MemoryGame
     @scores = SQLite3::Database.open "#{scores_database}"
   end
 
-  def one_round
+  def play_timed_game #game currently gives you the total amount of time to play and doesn't refresh timer.
     keep_going = true
     start_screen
     username = answer
@@ -20,17 +20,23 @@ class MemoryGame
       clear_screen
       add_letter(@letters)
       puts @letters.join
-      wait
-      clear_screen
-      answer_timer
-      keep_going = compare_answer(answer, @letters)
+      answers_in_time = Thread.new do
+        wait
+        clear_screen
+        keep_going = compare_answer(answer, @letters)
+      end
+      answers_too_slow = Thread.new do
+        answer_timer
+        keep_going = false
+        Thread.kill(answers_in_time)
+      end
+      answers_in_time.join
     end
 
-    user_score = score(@letters)
-    add_score(@scores, username, user_score)
-    you_lose(username, user_score)
-    high_score_screen(this_weeks_high_scores(@scores))
+    score_screen(username)
   end
+
+
 end
 
 game = MemoryGame.new('scores.db')
@@ -44,4 +50,4 @@ game = MemoryGame.new('scores.db')
 # game.add_score(game.scores, "armen", 64)
 # game.add_score(game.scores, "armen", 250)
 # game.high_score_screen(game.this_weeks_high_scores(game.scores))
-game.one_round
+game.play_timed_game
