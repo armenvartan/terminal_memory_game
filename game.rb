@@ -13,7 +13,6 @@ class MemoryGame
     @user_name = ""
   end
 
-
   def start_game
     start_screen
     @username = gets.chomp
@@ -36,7 +35,7 @@ class MemoryGame
     score_screen(@username)
   end
 
-  def timed_round
+  def timed_round # where timer is for the round time
     keep_going = true
 
     # until keep_going == false do
@@ -70,12 +69,6 @@ class MemoryGame
 
     score_screen(@username)
     sleep(2)
-    end
-
-    # user_score = score(@letters)
-    # add_score(@scores, username, user_score)
-    # you_lose(username, user_score)
-    # high_score_screen(this_weeks_high_scores(@scores))
   end
 end
 
@@ -85,7 +78,8 @@ game = MemoryGame.new('scores.db')
 
 game.start_game
 
-## TESTS ##
+## TESTS ## # I should have kept all of my tests to show. sorry for deleting some of them
+
 # p game.scores
 # game.start_game
 # game.add_score(game.scores, "armen", 1)
