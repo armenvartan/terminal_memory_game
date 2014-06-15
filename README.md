@@ -9,5 +9,6 @@ My goals with this game were:
 2. Improve my Object Oriented design
 3. Make a Ruby program that uses a SQL database.  
 
-If you want or need to reset the database, type $cat schema.sql | sqlite3 scores.db  
+If you want or need to reset the database, type  
+    $cat schema.sql | sqlite3 scores.db  
 if the db gets corrupted, remove the db file before doing that.
