@@ -13,62 +13,37 @@ class MemoryGame
     @user_name = ""
   end
 
-  def start_game
+  def play_game
     start_screen
     @username = gets.chomp
     choose_game_mode
+    score_screen(@username)
+    sleep(1)
   end
 
   def timed_game #where timer is for the total game
     keep_going = true
 
     until keep_going == false do
-      clear_screen
-      add_letter(@letters)
-      puts @letters.join
+      letter_adder_supreme
 
       answers_in_time = Thread.new{ wait; clear_screen; keep_going = compare_answer(answer, @letters) }
       answers_too_slow = Thread.new{ timer; keep_going = false; Thread.kill(answers_in_time) }
       answers_in_time.join
     end
-
-    score_screen(@username)
   end
 
   def timed_round # where timer is for the round time
     keep_going = true
 
-    # until keep_going == false do
-    #   clear_screen
-    #   add_letter(@letters)
-    #   puts @letters.join
-    #
-    #   answers_in_time = Thread.new do
-    #     wait
-    #     clear_screen
-    #     compare_answer(answer, @letters) ? timed_round : keep_going = false
-    #     Thread.kill(answers_too_slow)
-    #   end
-    #   answers_too_slow = Thread.new do
-    #     timer
-    #     Thread.kill(answers_in_time)
-    #     keep_going = false
-    #   end
-    #   answers_in_time.join
-    # end
-
     until keep_going == false do
-      clear_screen
-      add_letter(@letters)
-      puts @letters.join
+      letter_adder_supreme
 
-      answers_in_time = Thread.new{ wait; clear_screen; keep_going = compare_answer(answer, @letters); Thread.kill(answers_too_slow) }
+      answers_in_time = Thread.new{ wait; clear_screen; keep_going = compare_answer(answer, @letters) }
       answers_too_slow = Thread.new{ timer; keep_going = false; Thread.kill(answers_in_time) }
       answers_in_time.join
+      Thread.kill(answers_too_slow)
     end
-
-    score_screen(@username)
-    sleep(2)
   end
 end
 
@@ -76,7 +51,7 @@ game = MemoryGame.new('scores.db')
 
 ## DRIVER CODE ##
 
-game.start_game
+game.play_game
 
 ## TESTS ## # I should have kept all of my tests to show. sorry for deleting some of them
 

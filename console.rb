@@ -13,6 +13,12 @@ module Console
     array.push(random_letter)
   end
 
+  def letter_adder_supreme
+    clear_screen
+    add_letter(@letters)
+    puts @letters.join
+  end
+
   def answer
     answer = gets.chomp
   end
